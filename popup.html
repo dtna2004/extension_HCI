@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { 
+      width: 350px; 
+      padding: 15px; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background-color: #f5f5f5;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    
+    h3 { 
+      text-align: center; 
+      margin-top: 0; 
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+    }
+    
+    .section {
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+    }
+    
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #2c3e50;
+      font-size: 14px;
+    }
+    
+    select, button, input[type="range"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    
+    select, input[type="range"] {
+      background-color: white;
+    }
+    
+    button {
+      cursor: pointer;
+      background: linear-gradient(to right, #3498db, #2c3e50);
+      color: white;
+      border: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    #toggle-extension {
+      background: linear-gradient(to right, #27ae60, #2ecc71);
+    }
+    
+    #toggle-extension.disabled {
+      background: linear-gradient(to right, #e74c3c, #c0392b);
+    }
+    
+    #focus-mode-toggle {
+      background: linear-gradient(to right, #9b59b6, #8e44ad);
+    }
+    
+    #focus-mode-toggle.active {
+      background: linear-gradient(to right, #e74c3c, #c0392b);
+    }
+    
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .slider-container label {
+      min-width: 80px;
+      font-weight: bold;
+    }
+    
+    input[type="range"] {
+      flex: 1;
+      padding: 0;
+    }
+    
+    .color-picker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .color-picker label {
+      min-width: 80px;
+      font-weight: bold;
+    }
+    
+    input[type="color"] {
+      width: 40px;
+      height: 30px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    #original-text-box, #summary-box { 
+      border: 1px solid #3498db; 
+      padding: 15px; 
+      margin-top: 15px; 
+      font-size: 14px; 
+      display: none; 
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    #original-text-box {
+      border-color: #95a5a6;
+    }
+    
+    .text-section-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #2c3e50;
+      font-size: 14px;
+    }
+    
+    #audio-player {
+      display: none;
+      margin-top: 15px;
+      width: 100%;
+    }
+    
+    #audio-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    #play-btn, #pause-btn {
+      width: auto;
+      padding: 8px 15px;
+      font-size: 12px;
+    }
+    
+    /* Loading animation */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      margin-top: 10px;
+      font-style: italic;
+      color: #7f8c8d;
+    }
+    
+    /* Theme styles for popup only */
+    .theme-light { background-color: #ffffff; color: #333333; }
+    .theme-dark { background-color: #2c3e50; color: #ecf0f1; }
+    .theme-blue { background-color: #e3f2fd; color: #0d47a1; }
+    .theme-green { background-color: #e8f5e9; color: #1b5e20; }
+    
+    /* Font styles for popup only */
+    .font-default { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .font-serif { font-family: Georgia, serif; }
+    .font-mono { font-family: 'Courier New', monospace; }
+    .font-comic { font-family: 'Comic Sans MS', cursive; }
+    .font-open-dyslexic { font-family: 'OpenDyslexic', Arial, sans-serif; }
+    .font-verdana { font-family: Verdana, sans-serif; }
+    .font-tahoma { font-family: Tahoma, sans-serif; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>AI Reader & Summarizer Pro</h3>
+    
+    <button id="toggle-extension">Tắt Extension</button>
+    <button id="focus-mode-toggle">Bật Chế độ Tập trung</button>
+    
+    <div class="section">
+      <div class="section-title">Phông chữ:</div>
+      <select id="font-selector">
+        <option value="default">Mặc định (Sans-serif)</option>
+        <option value="serif">Serif (Georgia)</option>
+        <option value="mono">Monospace (Courier New)</option>
+        <option value="comic">Comic Sans</option>
+        <option value="open-dyslexic">OpenDyslexic (Cho người Dyslexia)</option>
+        <option value="verdana">Verdana (Dễ đọc)</option>
+        <option value="tahoma">Tahoma (Cho người khiếm thị)</option>
+      </select>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Cỡ chữ:</div>
+      <div class="slider-container">
+        <label for="font-size-slider">Cỡ chữ:</label>
+        <input type="range" id="font-size-slider" min="12" max="24" value="16">
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Màu nền:</div>
+      <select id="theme-selector">
+        <option value="default">Mặc định</option>
+        <option value="light">Sáng</option>
+        <option value="dark">Tối</option>
+        <option value="blue">Xanh dương</option>
+        <option value="green">Xanh lá</option>
+        <option value="high-contrast">High Contrast (Cho người mù màu)</option>
+      </select>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Giọng đọc:</div>
+      <select id="voice-selector">
+        <option value="vi-VN-HoaiMyNeural">Tiếng Việt (Nữ)</option>
+        <option value="vi-VN-NamMinhNeural">Tiếng Việt (Nam)</option>
+        <option value="en-US-JennyNeural">English (US Female)</option>
+        <option value="en-US-GuyNeural">English (US Male)</option>
+      </select>
+    </div>
+    
+    <button id="btn-sum">Tóm tắt đoạn đã chọn</button>
+    <button id="btn-read">Chuyển văn bản thành giọng nói</button>
+    
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Đang xử lý...</div>
+    </div>
+    
+    <div id="original-text-box">
+      <div class="text-section-title">Văn bản gốc:</div>
+      <div id="original-text-content"></div>
+    </div>
+    
+    <div id="summary-box">
+      <div class="text-section-title">Bản tóm tắt:</div>
+      <div id="summary-content"></div>
+    </div>
+    
+    <div id="audio-player">
+      <audio id="audio-element" controls style="width: 100%;">
+        Your browser does not support the audio element.
+      </audio>
+      <div id="audio-controls">
+        <button id="play-btn">Phát</button>
+        <button id="pause-btn">Tạm dừng</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
