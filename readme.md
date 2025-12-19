@@ -91,11 +91,8 @@
 ### 2. Backend Setup
 - Run
 ```
-cd backend
-python -m venv venv
-source venv/bin/activate   # macOS / Linux
-venv\Scripts\activate      # Windows
 pip install -r requirements.txt
+python app.py
 ```
 ### Applied HCI Principles
 - Effectiveness – Improves comprehension and reading efficiency
@@ -118,4 +115,5 @@ pip install -r requirements.txt
 - Nguyen Quang Canh 
 - Dinh Xuan Hoa 
 - Nguyen Van Thuan
+
 
