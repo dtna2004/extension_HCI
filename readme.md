@@ -66,11 +66,8 @@
 ## Technologies Used
 
 ### Frontend – Browser Extension
-- TypeScript
-- React
-- Tailwind CSS
+- HTML,CSS,JS
 - Edge-TTS API
-- Mozilla Readability
 
 ### Backend
 - Python
@@ -99,7 +96,8 @@ python -m venv venv
 source venv/bin/activate   # macOS / Linux
 venv\Scripts\activate      # Windows
 pip install -r requirements.txt
-## Applied HCI Principles
+```
+### Applied HCI Principles
 - Effectiveness – Improves comprehension and reading efficiency
 - Efficiency – Minimal steps to perform core actions
 - Learnability & Memorability – Easy to learn and remember
@@ -120,3 +118,4 @@ pip install -r requirements.txt
 - Nguyen Quang Canh 
 - Dinh Xuan Hoa 
 - Nguyen Van Thuan
+
